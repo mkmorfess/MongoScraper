@@ -7,6 +7,8 @@ const path = require('path');
 // Set port
 const PORT = process.env.PORT || 3000
 
+var uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL ||'mongodb://localhost/mongoScraper';
+
 //Init App
 const app = express();
 
