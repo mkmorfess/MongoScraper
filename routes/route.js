@@ -4,10 +4,10 @@ const cheerio = require('cheerio');
 const request = require('request');
 const mongojs = require("mongojs");
 
-var databaseUrl = "mongoScraper";
+var databaseUrl = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL ||'mongodb://localhost/mongoScraper';
 var collections = ["articles"];
 
-var db = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL ||'mongodb://localhost/mongoScraper';
+var db = mongojs(databaseUrl, collections);
 
 db.on("error", function(error) {
   console.log("Database Error:", error);
