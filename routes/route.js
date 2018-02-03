@@ -9,7 +9,7 @@ var collections = ["articles"];
 
 var uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL ||'mongodb://localhost/mongoScraper';
 
-var db = mongojs(databaseUrl, collections);
+var db = mongojs(uristring, collections);
 
 db.on("error", function(error) {
   console.log("Database Error:", error);
