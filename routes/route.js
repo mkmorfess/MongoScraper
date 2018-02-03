@@ -7,7 +7,7 @@ const mongojs = require("mongojs");
 var databaseUrl = "mongoScraper";
 var collections = ["articles"];
 
-var db = mongojs(databaseUrl, collections);
+var db = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL ||'mongodb://localhost/mongoScraper';
 
 db.on("error", function(error) {
   console.log("Database Error:", error);
