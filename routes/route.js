@@ -47,7 +47,7 @@ router.get('/all', (req, res) => {
 });
 
 
-router.get("/save", (req, res) => {
+router.get("/save", (req, res, next) => {
 	db.articles.find({}).sort({_id: -1}, function(err, data){
 		var newData = {
 			saved: data
@@ -62,9 +62,12 @@ router.get("/save", (req, res) => {
 	
 })
 
-router.post('/save', (req, res) => {
+router.post('/save', (req, res, next) => {
 	db.articles.find({title: req.body.saveThisHeader}, function(error, doc){
-		if (doc.length){
+		if (error) {
+			console.log(error)
+		}
+		else if (doc.length){
 			res.send("Article Already In Database")
 		}
 
