@@ -1,0 +1,31 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Mongo Scraper</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/save">Saved Articles</a></li>
+    </ul>
+  </div>
+</nav>
+
+	
+<div class="jumbotron text-center main-background">
+	<div class="layer">
+		<h1>Mongo Scraper</h1>
+		<h3>New York Times Edition</h3>
+	</div>
+</div>
+
+<div id="saved">
+{{#each saved}}
+  <div data-id="{{_id}}" class="container text-left newsList">
+    <img src="{{image}}" class="picImage">
+    <h4>{{title}}</h4>
+    <p>{{summary}}</p>
+    <a href="{{link}}" target="_blank" class="row">Read More Here</a>
+    <button class="delete btn-danger">Delete This Article</button>
+  </div>
+{{/each}}
+</div>
