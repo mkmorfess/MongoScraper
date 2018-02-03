@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const request = require('request');
 const mongojs = require("mongojs");
 
-var databaseUrl = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL ||'mongodb://localhost/mongoScraper';
+var databaseUrl = process.env.MONGODB_URI ||'mongodb://localhost/mongoScraper';
 var collections = ["articles"];
 
 var db = mongojs(databaseUrl, collections);
