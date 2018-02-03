@@ -25,13 +25,30 @@
     <h4>{{title}}</h4>
     <p>{{summary}}</p>
     <a href="{{link}}" target="_blank" class="row">Read More Here</a>
-    <form data-id="{{_id}}" class="postComment">
-      <div>Post a comment:</div>
-      <textarea rows="5" cols="120" id="comment" autofocus="true" maxlength="200"></textarea>
+
+    <div data-id="{{_id}}" class="postComment col-md-6">
+      <label for="comment">Comment:</label>
+      <input class="form-control" type="text" id="comment">
       <input type="submit" id="submit" class="btn-success">
-    </form>
+    </div>
+      
+    
     <button class="delete btn-danger">Delete This Article</button>
-    <div class="seeComments">Comments: {{comments.length}}</div>
+    <div data-id="{{_id}}" class="seeComments">Comments: {{comments.length}}</div>
   </div>
 {{/each}}
+</div>
+
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-header">
+    </div>
+    <ol class="modal-comments">
+    </ol>
+  </div>
+
 </div>

@@ -95,6 +95,23 @@ router.post('/save', (req, res, next) => {
 	})
 })
 
+router.get("/save/comments/:id", function(req, res){
+	
+	db.articles.find({_id: db.ObjectId(req.params.id)}, function(err, data){
+
+		if (err) {
+	      	console.log(err);
+    	}
+    	else {
+      		res.json(data);
+    	}
+
+
+	})
+
+
+})
+
 router.post("/save/comment", function(req, res){
 	db.articles.findAndModify({
     query: { _id: db.ObjectId(req.body.id) },

@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-
+var modal = $('#myModal');
 	
 
 	$("#scraper").on("click", function(){
@@ -99,30 +99,69 @@ $(document).ready(function(){
 		event.preventDefault();
 
 		var newComment = {
-			comment: $(this).siblings("textarea").val().trim(),
-			id: $(this).parent("form").attr("data-id")
+			comment: $(this).siblings("#comment").val().trim(),
+			id: $(this).parent("div").attr("data-id")
 		}
 		console.log(newComment.comment)
 		console.log(newComment.id)
 
-		$(this).siblings("textarea").val("")
+		$(this).siblings("#comment").val("")
 
 		$.ajax({
 			url: "/save/comment",
 			type: "POST",
 			data: newComment
 		}).done(function(response){
-			console.log(response)	
+			console.log(response)
+			location.reload();	
 		})
 
+	})
+
+
+	$(document).on("click", ".seeComments", function(){
+		var content = $(".modal-comments")
+		content.empty();
+		$(".modal-header").empty();
+
+		var getComments = {
+			thisId: $(this).attr("data-id")
+		}
+
+		console.log(getComments.thisId)
+
+		$.get("/save/comments/" + getComments.thisId).done(function(response){
+			console.log(response[0].comments)
+
+			var contentHeader = $("<h4>")
+			contentHeader.text("Comments for " + response[0].title)
+			contentHeader.css("color", "black")
+			$(".modal-header").append(contentHeader)
+			
+			for (var i = 0; i < response[0].comments.length; i++) {
+
+				
+				var newContent = $("<li>")
+
+				newContent.text(response[0].comments[i])
+				content.append(newContent)
+
+
+			}
+
+
+
+			modal.css("display", "block")
+
+		})
 
 
 
 	})
 
-
-
-
+	$(document).on("click", ".close", function(){
+		modal.css("display", "none")
+	})
 
 })
 
