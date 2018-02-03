@@ -60,7 +60,12 @@ $(document).ready(function(){
 			data: data
 		}).done(function(response){
 			console.log("All done, here is your response: " + response)
-			alert("Article Saved")
+
+			if (response === "Article Already In Database") {
+				alert("Article Already In Your Saved Articles")
+			} else {
+				alert("Article Saved")
+			}
 		})
 
 
@@ -69,7 +74,7 @@ $(document).ready(function(){
 
 
 	$.get("/save", function(data){
-		console.log(data)
+		// console.log(data)
 	})
 
 
@@ -83,9 +88,34 @@ $(document).ready(function(){
 			url: "/save/" + data.thisId,
 			type: "DELETE"
 		}).done(function(response){
-			console.log("All done, here is your response: " + response)
+			// console.log("All done, here is your response: " + response)
 			location.reload();
 		})
+
+
+	})
+
+	$(document).on("click", "#submit", function(event){
+		event.preventDefault();
+
+		var newComment = {
+			comment: $(this).siblings("textarea").val().trim(),
+			id: $(this).parent("form").attr("data-id")
+		}
+		console.log(newComment.comment)
+		console.log(newComment.id)
+
+		$(this).siblings("textarea").val("")
+
+		$.ajax({
+			url: "/save/comment",
+			type: "POST",
+			data: newComment
+		}).done(function(response){
+			console.log(response)	
+		})
+
+
 
 
 	})

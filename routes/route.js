@@ -7,6 +7,8 @@ const mongojs = require("mongojs");
 var databaseUrl = "mongoScraper";
 var collections = ["articles"];
 
+var uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL ||'mongodb://localhost/mongoScraper';
+
 var db = mongojs(databaseUrl, collections);
 
 db.on("error", function(error) {
@@ -63,19 +65,47 @@ router.get("/save", (req, res) => {
 })
 
 router.post('/save', (req, res) => {
-	db.articles.insert({
-		title: req.body.saveThisHeader,
-		link: req.body.saveThisLink, 
-		summary: req.body.saveThisSummary, 
-		image: req.body.saveThisImage
-	}, function(err, data){
+	db.articles.find({title: req.body.saveThisHeader}, function(error, doc){
+		if (doc.length){
+			res.send("Article Already In Database")
+		}
 
-		if (err) {
-      		console.log(err);
-    	}
-    	else {
-      		res.json(data);
-    	}
+		else {
+
+			db.articles.insert({
+				title: req.body.saveThisHeader,
+				link: req.body.saveThisLink, 
+				summary: req.body.saveThisSummary, 
+				image: req.body.saveThisImage,
+				comments: []
+			}, function(err, data){
+
+				if (err) {
+		      		console.log(err);
+		    	}
+		    	else {
+		      		res.json(data);
+		    	}
+			})
+
+		}
+
+
+	})
+})
+
+router.post("/save/comment", function(req, res){
+	db.articles.findAndModify({
+    query: { _id: db.ObjectId(req.body.id) },
+    update: { $push: { comments: [req.body.comment] } },
+    new: true
+}, function(err, data) {
+			if (err) {
+	      		console.log(err);
+	    	}
+	    	else {
+	      		res.json(data);
+	    	}
 	})
 })
 
