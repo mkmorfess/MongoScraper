@@ -30,8 +30,12 @@
 	border-radius: 12px;
 }
 
-textarea {
-	resize: vertical;
+.navvy {
+    overflow: hidden;
+    position: fixed;
+    z-index: 1;
+    top: 0; 
+    width: 100%; 
 }
 
 .newsList {

@@ -5,7 +5,10 @@ var modal = $('#myModal');
 
 	$("#scraper").on("click", function(){
 
+
+
 		$("#news").empty();
+
 
 		$.get("/all").done(function(data){
 			// console.log(data)
@@ -40,8 +43,14 @@ var modal = $('#myModal');
 				newButton.addClass("save btn-warning")
 				newButton.text("Save This Article")
 				newStory.append(newButton)
+
 			}
 		})
+
+		$('html, body').animate({
+			scrollTop: $("#news").offset().top
+		}, 2000);
+
 
 	})
 
@@ -74,6 +83,10 @@ var modal = $('#myModal');
 
 
 	$.get("/save", function(data){
+
+		$('html, body').animate({
+			scrollTop: $("#saved").offset().top
+		}, 2000);
 		// console.log(data)
 	})
 
