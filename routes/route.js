@@ -77,9 +77,11 @@ router.post('/save', (req, res, next) => {
 	}, function(err, data){
 
 		if (err) {
-      		console.log(err);
+      		console.log("This is the error: " + err);
+      		res.json({"Error": "Error"});
     	}
     	else {
+    		// console.log(data)
       		res.json(data);
     	}
 	})
@@ -118,7 +120,7 @@ router.post("/save/comment", function(req, res){
 
 
 router.delete('/save/:id', (req, res) => {
-	console.log(req.params.id)
+	// console.log(req.params.id)
 	db.findByIdAndRemove({_id: req.params.id}, function(err, data){
 
 		if (err) {

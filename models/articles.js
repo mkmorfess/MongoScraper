@@ -9,7 +9,7 @@ var UserSchema = new Schema({
    title: {
       type: String,
       trim: true,
-      unique: true
+      unique: true,
    },
 
    link: {

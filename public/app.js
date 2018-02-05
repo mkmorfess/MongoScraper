@@ -8,7 +8,7 @@ var modal = $('#myModal');
 		$("#news").empty();
 
 		$.get("/all").done(function(data){
-			console.log(data)
+			// console.log(data)
 			for (var i = 0; i < data.length; i++) {
 
 				var newStory = $("<div>")
@@ -59,9 +59,9 @@ var modal = $('#myModal');
 			type: "POST",
 			data: data
 		}).done(function(response){
-			console.log("All done, here is your response: " + response)
+			// console.log("All done, here is your response: " + response)
 
-			if (response === "Article Already In Database") {
+			if (response.Error) {
 				alert("Article Already In Your Saved Articles")
 			} else {
 				alert("Article Saved")
@@ -102,8 +102,8 @@ var modal = $('#myModal');
 			comment: $(this).siblings("#comment").val().trim(),
 			id: $(this).parent("div").attr("data-id")
 		}
-		console.log(newComment.comment)
-		console.log(newComment.id)
+		// console.log(newComment.comment)
+		// console.log(newComment.id)
 
 		$(this).siblings("#comment").val("")
 
@@ -112,7 +112,7 @@ var modal = $('#myModal');
 			type: "POST",
 			data: newComment
 		}).done(function(response){
-			console.log(response)
+			// console.log(response)
 			location.reload();	
 		})
 
@@ -128,10 +128,10 @@ var modal = $('#myModal');
 			thisId: $(this).attr("data-id")
 		}
 
-		console.log(getComments.thisId)
+		// console.log(getComments.thisId)
 
 		$.get("/save/comments/" + getComments.thisId).done(function(response){
-			console.log(response[0].comments)
+			// console.log(response[0].comments)
 
 			var contentHeader = $("<h4>")
 			contentHeader.text("Comments for " + response[0].title)
