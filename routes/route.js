@@ -2,12 +2,16 @@ const express = require('express');
 const router = express.Router();
 const cheerio = require('cheerio');
 const request = require('request');
-const mongojs = require("mongojs");
+// const mongojs = require("mongojs");
+var mongoose = require("mongoose");
 
 var databaseUrl = process.env.MONGODB_URI ||'mongodb://localhost/mongoScraper';
 var collections = ["articles"];
 
-var db = mongojs(databaseUrl, collections);
+mongoose.Promise = Promise;
+mongoose.connect(databaseUrl);
+
+var db = require("./../models/articles.js")
 
 db.on("error", function(error) {
   console.log("Database Error:", error);
@@ -48,7 +52,7 @@ router.get('/all', (req, res) => {
 
 
 router.get("/save", (req, res, next) => {
-	db.articles.find({}).sort({_id: -1}, function(err, data){
+	db.find({}).sort({_id: -1}).exec(function(err, data){
 		var newData = {
 			saved: data
 		}
@@ -62,42 +66,29 @@ router.get("/save", (req, res, next) => {
 	
 })
 
-router.post('/save', (req, res, next) => {
-	db.articles.find({title: req.body.saveThisHeader}, function(error, doc){
-		if (error) {
-			console.log(error)
-		}
-		else if (doc.length){
-			res.send("Article Already In Database")
-		}
+router.post('/save', (req, res, next) => {			
 
-		else {
+	db.create({
+		title: req.body.saveThisHeader,
+		link: req.body.saveThisLink, 
+		summary: req.body.saveThisSummary, 
+		image: req.body.saveThisImage,
+		comments: []
+	}, function(err, data){
 
-			db.articles.insert({
-				title: req.body.saveThisHeader,
-				link: req.body.saveThisLink, 
-				summary: req.body.saveThisSummary, 
-				image: req.body.saveThisImage,
-				comments: []
-			}, function(err, data){
-
-				if (err) {
-		      		console.log(err);
-		    	}
-		    	else {
-		      		res.json(data);
-		    	}
-			})
-
-		}
-
-
+		if (err) {
+      		console.log(err);
+    	}
+    	else {
+      		res.json(data);
+    	}
 	})
+	
 })
 
 router.get("/save/comments/:id", function(req, res){
 	
-	db.articles.find({_id: db.ObjectId(req.params.id)}, function(err, data){
+	db.find({_id: req.params.id}, function(err, data){
 
 		if (err) {
 	      	console.log(err);
@@ -113,10 +104,8 @@ router.get("/save/comments/:id", function(req, res){
 })
 
 router.post("/save/comment", function(req, res){
-	db.articles.findAndModify({
-    query: { _id: db.ObjectId(req.body.id) },
-    update: { $push: { comments: [req.body.comment] } },
-    new: true
+	db.update({_id: req.body.id },
+    { $push: { comments: [req.body.comment] } 
 }, function(err, data) {
 			if (err) {
 	      		console.log(err);
@@ -130,7 +119,7 @@ router.post("/save/comment", function(req, res){
 
 router.delete('/save/:id', (req, res) => {
 	console.log(req.params.id)
-	db.articles.remove({_id: db.ObjectId(req.params.id)}, function(err, data){
+	db.findByIdAndRemove({_id: req.params.id}, function(err, data){
 
 		if (err) {
       		console.log(err);
