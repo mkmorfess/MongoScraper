@@ -3,7 +3,7 @@ $(document).ready(function(){
 var modal = $('#myModal');
 	
 
-	$("#scraper").on("click", function(){
+	$("#scraper").off().on("click", function(){
 
 
 
@@ -83,12 +83,12 @@ var modal = $('#myModal');
 
 
 	$.get("/save", function(data){
-		if (location.pathname === "/save") {
-			$('html, body').animate({
-				scrollTop: $("#saved").offset().top
-			}, 2000);
+		// if (location.pathname === "/save") {
+		// 	$('html, body').animate({
+		// 		scrollTop: $("#saved").offset().top
+		// 	}, 2000);
 			console.log(data)
-		}
+		// }
 	})
 
 
