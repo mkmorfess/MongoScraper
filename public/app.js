@@ -82,14 +82,14 @@ var modal = $('#myModal');
 
 
 
-	$.get("/save", function(data){
-		// if (location.pathname === "/save") {
-		// 	$('html, body').animate({
-		// 		scrollTop: $("#saved").offset().top
-		// 	}, 2000);
-			console.log(data)
-		// }
-	})
+	// $.get("/save", function(data){
+	// 	// if (location.pathname === "/save") {
+	// 	// 	$('html, body').animate({
+	// 	// 		scrollTop: $("#saved").offset().top
+	// 	// 	}, 2000);
+	// 		console.log(data)
+	// 	// }
+	// })
 
 
 	$(document).on("click", ".delete", function(){
