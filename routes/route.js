@@ -22,11 +22,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/all', (req, res) => {
-  request('http://www.nytimes.com/pages/todayspaper/index.html?action=Click&module=HPMiniNav&region=TopBar&WT.nav=page&contentCollection=TodaysPaper&pgtype=Homepage', function (error, response, html) {
+  request('https://www.nytimes.com/section/todayspaper', function (error, response, html) {
   if (!error && response.statusCode == 200) {
   	var $ = cheerio.load(html);
   	var results = [];
-  	$("div.story").children("h3").children("a").each(function(i, element) {
+  	$("div.story-items").children("h2").children("a").each(function(i, element) {
   		
 
   		var title = $(element).text();
@@ -34,15 +34,15 @@ router.get('/all', (req, res) => {
 
     	var link = $(element).attr("href");
 
-    	var summary = $(element).parent().parent("div.story").children("p.summary").text()
+    	var summary = $(element).parent().parent("div.story-items").children("p.summary").text()
 
-    	var image = $(element).parent().parent("div.story").children(".thumbnail").children("a").children("img").attr("src")
+    	// var image = $(element).parent().parent("div.story-items").children(".thumbnail").children("a").children("img").attr("src")
 
     	results.push({
       		title: title,
       		summary: summary,
-      		link: link,
-      		image: image
+      		link: link
+      	
     	});
   	})
     res.send(results)
